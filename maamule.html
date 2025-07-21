@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maamulka Warshadda Dharka</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        /* --- CSS Start --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #e0f2f7, #c1e4f3); /* Light blue gradient */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top */
+            min-height: 100vh; /* Full viewport height */
+            padding: 20px 0; /* Add some vertical padding */
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1000px; /* Increased max-width for better layout */
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 15px;
+            background-color:;
+        }
+
+        header h2 {
+            color: #007bff;
+            font-size: 1.5em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: px;
+        }
+
+        header h2 .fas {
+            color: #28a745; /* Icon color */
+        }
+
+        .dashboard {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .dashboard button {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .dashboard button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        }
+
+        .dashboard button.active {
+            background-color: #28a745;
+            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .dashboard button.active:hover {
+            background-color: #218838;
+        }
+
+        /* Dashboard Statistics Styling */
+        .dashboard-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #e9ecef; /* Light grey background */
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            flex: 1; /* Allow cards to grow and shrink */
+            min-width: 200px;
+            max-width: 23%; /* Max width to ensure 4 cards per row on larger screens */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stat-card h3 {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .stat-card p {
+            font-size: 2em;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Specific colors for stat cards */
+        .total-revenue-card .icon { color: #28a745; } /* Green */
+        .total-revenue-card p { color: #28a745; }
+
+        .total-customers-card .icon { color: #007bff; } /* Blue */
+        .total-customers-card p { color: #007bff; }
+
+        .total-items-sold-card .icon { color: #fd7e14; } /* Orange */
+        .total-items-sold-card p { color: #fd7e14; }
+
+        /* Style for Most Selling District Card */
+        .most-selling-district-card .icon { color: #6f42c1; } /* Purple */
+        .most-selling-district-card p { color: #6f42c1; }
+
+        /* Daily Performance Chart Styling */
+        .daily-performance-chart {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .daily-performance-chart h2 {
+            color: #007bff;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .daily-performance-chart h2 .fas {
+            color: #17a2b8; /* Info blue */
+        }
+
+        .chart-container {
+            width: 90%;
+            max-width: 700px; /* Limit chart width */
+            margin: 0 auto;
+            position: relative; /* For responsive sizing */
+        }
+
+        .section {
+            display: none;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #eee;
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        h2 .fas {
+            color: #fd7e14; /* Icon color */
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #fefefe;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        form input[type="text"],
+        form input[type="number"],
+        form select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        form input[type="text"]:focus,
+        form input[type="number"]:focus,
+        form select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+        form button[type="submit"] {
+            grid-column: 1 / -1; /* Button spans full width */
+            padding: 12px 25px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        form button[type="submit"]:hover {
+            background-color: #218838;
+            transform: translateY(-1px);
+        }
+
+        .table-container {
+            overflow-x: auto; /* Allows horizontal scrolling on small screens */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden; /* Ensures rounded corners apply to content */
+        }
+
+        table thead {
+            background-color: #007bff;
+            color: white;
+        }
+
+        table th,
+        table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        table th {
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        table button {
+            padding: 8px 15px;
+            margin-right: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-flex; /* Align icons with text */
+            align-items: center;
+            gap: 5px;
+        }
+
+        table button.edit {
+            background-color: #ffc107; /* Warning yellow */
+            margin-bottom: 2px;
+        }
+
+        table button.edit:hover {
+            background-color: #e0a800;
+            transform: translateY(-1px);
+        }
+
+        table button.delete {
+            background-color: #dc3545; /* Danger red */
+        }
+
+        table button.delete:hover {
+            background-color: #c82333;
+            transform: translateY(-1px);
+        }
+
+        /* Styles for the new PDF button */
+        #downloadPdfBtn {
+            grid-column: 1 / -1; /* Make it span full width like submit button */
+            padding: 12px 25px;
+            background-color: #6c757d; /* Grey color */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px; /* Add some margin from the form */
+        }
+        .logo7{
+          width:100px;
+        }
+        
+
+        #downloadPdfBtn:hover {
+            background-color: #5a6268;
+            transform: translateY(-1px);
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+                flex-direction: column;
+                gap: 5px;
+            }
+            .dashboard {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .dashboard button {
+                width: 100%;
+                justify-content: center;
+            }
+            form {
+                grid-template-columns: 1fr; /* Stack inputs on small screens */
+            }
+            form button[type="submit"], #downloadPdfBtn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            table th, table td {
+                padding: 10px; /* Reduce padding for smaller screens */
+                font-size: 0.9em;
+            }
+            table button {
+                padding: 6px 10px;
+                font-size: 0.8em;
+            }
+            .container {
+                padding: 15px;
+            }
+            .dashboard-stats {
+                flex-direction: column; /* Stack cards vertically on small screens */
+            }
+            .stat-card {
+                max-width: 100%; /* Full width for cards on small screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+        /* --- CSS End --- */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2> 
+            <img class="logo7"src="logo7.png" alt="logo">
+            <i class="fas fa-industry"></i> Maamulka SABAN STAT</h2>
+        </header>
+
+        <nav class="dashboard">
+            <button id="showProductsBtn"  class="active"><i class="fas fa-boxes"></i> Maamulka Wax-soo-saarka</button>
+            <button id="showCustomersBtn"><i class="fas fa-users"></i> Maamulka Macaamiisha</button>
+        </nav>
+
+        <section class="dashboard-stats">
+            <div class="stat-card total-revenue-card">
+                <i class="fas fa-money-bill-wave icon"></i>
+                <h3>Lacagta La Shaqeeyay</h3>
+                <p id="totalRevenue">$0.00</p>
+            </div>
+            <div class="stat-card total-customers-card">
+                <i class="fas fa-user-check icon"></i>
+                <h3>Macaamiisha Wax Iibsaday</h3>
+                <p id="totalCustomers">0 Qof</p>
+            </div>
+            <div class="stat-card total-items-sold-card">
+                <i class="fas fa-shopping-basket icon"></i>
+                <h3>Alaabta La Iibsaday</h3>
+                <p id="totalItemsSold">0 Shay</p>
+            </div>
+            <div class="stat-card most-selling-district-card">
+                <i class="fas fa-city icon"></i>
+                <h3>Degmada Ugu Iibsiga Badan</h3>
+                <p id="mostSellingDistrict">N/A</p>
+            </div>
+        </section>
+
+        <section class="daily-performance-chart">
+            <h2><i class="fas fa-chart-line"></i> Waxqabadka Maalinlaha ah (Shalay vs Maanta)</h2>
+            <div class="chart-container">
+                <canvas id="dailySalesChart"></canvas>
+            </div>
+        </section>
+
+        <div id="productSection" class="section active">
+            <h2><i class="fas fa-tshirt"></i> Wax-soo-saarka Warshadda</h2>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                <input type="text" id="productName" placeholder="Magaca Shayga (e.g., Go-sariir)" required>
+                <select id="productCategory" required>
+                    <option value="">Dooro Qaybta Dharka</option>
+                    <option value="Xijaab">Xijaab</option>
+                    <option value="Saako">Saako</option>
+                    <option value="Garan">Garan</option>
+                    <option value="Cabaayad/xijaab">Cabaayad/xijaab</option>
+                    <option value="Go-sariir">Go-sariir</option>
+                    <option value="Cabaayad">Cabaayad</option>
+                </select>
+                <input type="number" id="productQuantity" placeholder="Tirada Shayga" required min="1">
+                <input type="number" id="productPrice" placeholder="Qiimaha Shayga" step="0.01" required min="0.01">
+                <input type="number" id="productLength" placeholder="Dhererka (inches)" required min="1">
+                <input type="number" id="productWidth" placeholder="Dhexda (inches)" required min="1">
+                <button type="submit"><i class="fas fa-save"></i> Keydi Shayga</button>
+            </form>
+            <div class="table-container">
+                <table id="productTable">
+                    <thead>
+                        <tr>
+                            <th>Magaca/Shayga</th>
+                            <th>Qaybta</th>
+                            <th>Tirada</th>
+                            <th>Qiimaha</th>
+                            <th>Dhererka</th>
+                            <th>Dhexda</th>
+                            <th>Taariikhda</th>
+                            <th>Ficil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="customerSection" class="section">
+            <h2><i class="fas fa-user-friends"></i> Macluumaadka Macaamiisha</h2>
+            <form id="customerForm">
+                <input type="hidden" id="customerId">
+                <input type="text" id="customerName" placeholder="Magaca Macmiilka" required>
+                <select id="customerProductSelect" required>
+                    <option value="">Dooro Shayga uu Iibsaday</option>
+                    </select>
+                <input type="number" id="customerQuantity" placeholder="Tirada Shayga" required min="1">
+                <input type="number" id="customerPrice" placeholder="Qiimaha Hal Shay" step="0.01" readonly required>
+                <input type="number" id="customerTotalAmount" placeholder="Lacagta Guud" step="0.01" readonly required>
+                <select id="customerDistrict" required>
+                    <option value="">Dooro Degmada</option>
+                    </select>
+                <button type="submit"><i class="fas fa-user-plus"></i> Keydi Macmiilka</button>
+            </form>
+            <button id="downloadPdfBtn"><i class="fas fa-file-pdf"></i> Soo Deji PDF-ka Macaamiisha</button> <div class="table-container">
+                <table id="customerTable">
+                    <thead>
+                        <tr>
+                            <th>Magaca/Macmiilka</th>
+                            <th>Shayga/Iibsaday</th>
+                            <th>Tirada</th>
+                            <th>Qiimaha/Hal/Shay</th>
+                            <th>Lacagta/Guud</th>
+                            <th>Degmada</th>
+                            <th>Taariikhda</th>
+                            <th>Ficil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* --- JavaScript Start --- */
+        document.addEventListener('DOMContentLoaded', () => {
+            // Dashboard navigation
+            const showProductsBtn = document.getElementById('showProductsBtn');
+            const showCustomersBtn = document.getElementById('showCustomersBtn');
+            const productSection = document.getElementById('productSection');
+            const customerSection = document.getElementById('customerSection');
+
+            // Dashboard Statistics Elements
+            const totalRevenueEl = document.getElementById('totalRevenue');
+            const totalCustomersEl = document.getElementById('totalCustomers');
+            const totalItemsSoldEl = document.getElementById('totalItemsSold');
+            const mostSellingDistrictEl = document.getElementById('mostSellingDistrict');
+
+            // Chart Elements
+            const dailySalesChartCanvas = document.getElementById('dailySalesChart');
+            let dailyChart; // Variable to hold the Chart.js instance
+
+            // List of Mogadishu Districts
+            const mogadishuDistricts = [
+                "Boondheere", "Shangaani", "Cabdicasis", "Dayniile", "Dharkeynleey",
+                "Heliwaa", "Hodan", "Howlwadaag", "Kaxda", "Xamar Weyne",
+                "Xamar Jajab", "Karaan", "Shibis", "Waaberi", "Wadajir",
+                "Yaaqshiid"
+            ];
+
+            showProductsBtn.addEventListener('click', () => {
+                productSection.classList.add('active');
+                customerSection.classList.remove('active');
+                showProductsBtn.classList.add('active');
+                showCustomersBtn.classList.remove('active');
+                updateDashboardStats();
+                if (dailyChart) dailyChart.destroy(); // Destroy chart if it exists when leaving customer section
+            });
+
+            showCustomersBtn.addEventListener('click', () => {
+                customerSection.classList.add('active');
+                productSection.classList.remove('active');
+                showCustomersBtn.classList.add('active');
+                showProductsBtn.classList.remove('active');
+                populateCustomerProductSelect();
+                populateDistrictSelect();
+                calculateCustomerTotal();
+                updateDashboardStats();
+                renderDailySalesChart(); // Render chart when customer section is active
+            });
+
+            // Helper function to format date
+            const formatDate = (dateString) => {
+                const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                return new Date(dateString).toLocaleDateString('so-SO', options);
+            };
+
+            // Helper function to get a date string in YYYY-MM-DD format
+            const getDateString = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+
+            // Function to update dashboard statistics
+            const updateDashboardStats = () => {
+                let totalRevenue = 0;
+                let totalItemsSold = 0;
+                let uniqueCustomers = new Set();
+                let districtSales = {};
+
+                customers.forEach(customer => {
+                    totalRevenue += customer.totalAmount;
+                    totalItemsSold += customer.quantity;
+                    uniqueCustomers.add(customer.name.toLowerCase());
+
+                    if (customer.district) {
+                        const district = customer.district.toLowerCase();
+                        districtSales[district] = (districtSales[district] || 0) + customer.quantity;
+                    }
+                });
+
+                totalRevenueEl.textContent = `$${totalRevenue.toFixed(2)}`;
+                totalCustomersEl.textContent = `${uniqueCustomers.size} Qof`;
+                totalItemsSoldEl.textContent = `${totalItemsSold} Shay`;
+
+                let mostSellingDistrict = 'N/A';
+                let maxSales = 0;
+
+                for (const district in districtSales) {
+                    if (districtSales[district] > maxSales) {
+                        maxSales = districtSales[district];
+                        mostSellingDistrict = district.charAt(0).toUpperCase() + district.slice(1);
+                    }
+                }
+                mostSellingDistrictEl.textContent = mostSellingDistrict;
+            };
+
+            // Function to render daily sales chart
+            const renderDailySalesChart = () => {
+                if (dailyChart) {
+                    dailyChart.destroy(); // Destroy previous chart instance if it exists
+                }
+
+                const today = new Date();
+                const yesterday = new Date(today);
+                yesterday.setDate(today.getDate() - 1);
+
+                const todayString = getDateString(today);
+                const yesterdayString = getDateString(yesterday);
+
+                let todayRevenue = 0;
+                let yesterdayRevenue = 0;
+
+                customers.forEach(customer => {
+                    const saleDate = new Date(customer.saleDate);
+                    const saleDateString = getDateString(saleDate);
+
+                    if (saleDateString === todayString) {
+                        todayRevenue += customer.totalAmount;
+                    } else if (saleDateString === yesterdayString) {
+                        yesterdayRevenue += customer.totalAmount;
+                    }
+                });
+
+                const ctx = dailySalesChartCanvas.getContext('2d');
+                dailyChart = new Chart(ctx, {
+                    type: 'bar', // Bar chart for comparison
+                    data: {
+                        labels: ['Shalay', 'Maanta'],
+                        datasets: [{
+                            label: 'Lacagta La Shaqeeyay ($)',
+                            data: [yesterdayRevenue.toFixed(2), todayRevenue.toFixed(2)],
+                            backgroundColor: [
+                                'rgba(255, 159, 64, 0.7)', // Orange for Yesterday
+                                'rgba(75, 192, 192, 0.7)'  // Green for Today
+                            ],
+                            borderColor: [
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(75, 192, 192, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Lacagta ($)'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Maalin'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+
+            // --- Product Management ---
+            const productForm = document.getElementById('productForm');
+            const productIdInput = document.getElementById('productId');
+            const productNameInput = document.getElementById('productName');
+            const productCategoryInput = document.getElementById('productCategory');
+            const productQuantityInput = document.getElementById('productQuantity');
+            const productPriceInput = document.getElementById('productPrice');
+            const productLengthInput = document.getElementById('productLength');
+            const productWidthInput = document.getElementById('productWidth');
+            const productTableBody = document.querySelector('#productTable tbody');
+
+            let products = JSON.parse(localStorage.getItem('products')) || [];
+
+            const saveProducts = () => {
+                localStorage.setItem('products', JSON.stringify(products));
+                populateCustomerProductSelect();
+            };
+
+            const renderProducts = () => {
+                productTableBody.innerHTML = '';
+                products.forEach(product => {
+                    const row = productTableBody.insertRow();
+                    row.insertCell().textContent = product.name;
+                    row.insertCell().textContent = product.category;
+                    row.insertCell().textContent = product.quantity;
+                    row.insertCell().textContent = parseFloat(product.price).toFixed(2);
+                    row.insertCell().textContent = product.length ? `${product.length} in` : 'N/A';
+                    row.insertCell().textContent = product.width ? `${product.width} in` : 'N/A';
+                    row.insertCell().textContent = product.registrationDate ? formatDate(product.registrationDate) : 'N/A';
+                    const actionsCell = row.insertCell();
+
+                    const editButton = document.createElement('button');
+                    editButton.textContent = 'Edit';
+                    editButton.classList.add('edit');
+                    editButton.innerHTML = '<i class="fas fa-edit"></i> Edit';
+                    editButton.addEventListener('click', () => editProduct(product.id));
+                    actionsCell.appendChild(editButton);
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.classList.add('delete');
+                    deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>Delete';
+                    deleteButton.addEventListener('click', () => deleteProduct(product.id));
+                    actionsCell.appendChild(deleteButton);
+                });
+            };
+
+            const addOrUpdateProduct = (event) => {
+                event.preventDefault();
+                const id = productIdInput.value;
+                const name = productNameInput.value.trim();
+                const category = productCategoryInput.value;
+                const quantity = parseInt(productQuantityInput.value);
+                const price = parseFloat(productPriceInput.value);
+                const length = parseFloat(productLengthInput.value);
+                const width = parseFloat(productWidthInput.value);
+
+                if (!name || !category || isNaN(quantity) || isNaN(price) || quantity <= 0 || price <= 0 || isNaN(length) || isNaN(width) || length <= 0 || width <= 0) {
+                    alert('Fadlan si sax ah u buuxi dhammaan xogta alaabta, oo ay ku jiraan dhererka iyo dhexda (in inches)!');
+                    return;
+                }
+
+                if (id) {
+                    products = products.map(product =>
+                        product.id === id ? { ...product, name, category, quantity, price, length, width } : product
+                    );
+                } else {
+                    const existingProduct = products.find(p => p.name.toLowerCase() === name.toLowerCase() && p.category === category && p.length === length && p.width === width);
+                    if (existingProduct) {
+                        alert(`Alaabta "${name}" oo ka tirsan qaybta "${category}" oo cabbirkeedu yahay ${length}in x ${width}in ayaa horay u jirtay.`);
+                        return;
+                    }
+
+                    const newProduct = {
+                        id: Date.now().toString(),
+                        name,
+                        category,
+                        quantity,
+                        price,
+                        length,
+                        width,
+                        registrationDate: new Date().toISOString()
+                    };
+                    products.push(newProduct);
+                }
+                saveProducts();
+                renderProducts();
+                productForm.reset();
+                productIdInput.value = '';
+            };
+
+            const editProduct = (id) => {
+                const product = products.find(p => p.id === id);
+                if (product) {
+                    productIdInput.value = product.id;
+                    productNameInput.value = product.name;
+                    productCategoryInput.value = product.category;
+                    productQuantityInput.value = product.quantity;
+                    productPriceInput.value = product.price;
+                    productLengthInput.value = product.length || '';
+                    productWidthInput.value = product.width || '';
+                }
+            };
+
+            const deleteProduct = (id) => {
+                if (confirm('Ma hubtaa inaad tirtirto alaabtan?')) {
+                    products = products.filter(product => product.id !== id);
+                    saveProducts();
+                    renderProducts();
+                }
+            };
+
+            productForm.addEventListener('submit', addOrUpdateProduct);
+            renderProducts();
+
+            // --- Customer Management ---
+            const customerForm = document.getElementById('customerForm');
+            const customerIdInput = document.getElementById('customerId');
+            const customerNameInput = document.getElementById('customerName');
+            const customerProductSelect = document.getElementById('customerProductSelect');
+            const customerQuantityInput = document.getElementById('customerQuantity');
+            const customerPriceInput = document.getElementById('customerPrice');
+            const customerTotalAmountInput = document.getElementById('customerTotalAmount');
+            const customerDistrictSelect = document.getElementById('customerDistrict');
+            const customerTableBody = document.querySelector('#customerTable tbody');
+            const downloadPdfBtn = document.getElementById('downloadPdfBtn'); // Get the new PDF button
+
+            let customers = JSON.parse(localStorage.getItem('customers')) || [];
+
+            const saveCustomers = () => {
+                localStorage.setItem('customers', JSON.stringify(customers));
+                updateDashboardStats();
+                renderDailySalesChart();
+            };
+
+            const renderCustomers = () => {
+                customerTableBody.innerHTML = '';
+                customers.forEach(customer => {
+                    const row = customerTableBody.insertRow();
+                    row.insertCell().textContent = customer.name;
+                    row.insertCell().textContent = customer.productName;
+                    row.insertCell().textContent = customer.quantity;
+                    row.insertCell().textContent = parseFloat(customer.itemPrice).toFixed(2);
+                    row.insertCell().textContent = parseFloat(customer.totalAmount).toFixed(2);
+                    row.insertCell().textContent = customer.district;
+                    row.insertCell().textContent = customer.saleDate ? formatDate(customer.saleDate) : 'N/A';
+                    const actionsCell = row.insertCell();
+
+                    const editButton = document.createElement('button');
+                    editButton.textContent = 'Edit';
+                    editButton.classList.add('edit');
+                    editButton.innerHTML = '<i class="fas fa-edit"></i> Edit';
+                    editButton.addEventListener('click', () => editCustomer(customer.id));
+                    actionsCell.appendChild(editButton);
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.classList.add('delete');
+                    deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i> Delete';
+                    deleteButton.addEventListener('click', () => deleteCustomer(customer.id));
+                    actionsCell.appendChild(deleteButton);
+                });
+            };
+
+            const populateCustomerProductSelect = () => {
+                customerProductSelect.innerHTML = '<option value="">Dooro Shayga uu Iibsaday</option>';
+                products.forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product.id;
+                    option.textContent = `${product.name} (${product.category}) - ${product.length}in x ${product.width}in - $${product.price.toFixed(2)} [${product.quantity} haray]`;
+                    customerProductSelect.appendChild(option);
+                });
+            };
+
+            const populateDistrictSelect = () => {
+                customerDistrictSelect.innerHTML = '<option value="">Dooro Degmada</option>';
+                mogadishuDistricts.sort().forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district;
+                    option.textContent = district;
+                    customerDistrictSelect.appendChild(option);
+                });
+            };
+
+            const calculateCustomerTotal = () => {
+                const selectedProductId = customerProductSelect.value;
+                const quantity = parseInt(customerQuantityInput.value);
+                let totalAmount = 0;
+
+                if (selectedProductId && !isNaN(quantity) && quantity > 0) {
+                    const selectedProduct = products.find(p => p.id === selectedProductId);
+                    if (selectedProduct) {
+                        totalAmount = selectedProduct.price * quantity;
+                    }
+                }
+                customerTotalAmountInput.value = totalAmount.toFixed(2);
+            };
+
+            customerProductSelect.addEventListener('change', () => {
+                const selectedProductId = customerProductSelect.value;
+                const selectedProduct = products.find(p => p.id === selectedProductId);
+                if (selectedProduct) {
+                    customerPriceInput.value = selectedProduct.price.toFixed(2);
+                } else {
+                    customerPriceInput.value = '';
+                }
+                calculateCustomerTotal();
+            });
+
+            customerQuantityInput.addEventListener('input', calculateCustomerTotal);
+
+            const addOrUpdateCustomer = (event) => {
+                event.preventDefault();
+                const id = customerIdInput.value;
+                const name = customerNameInput.value.trim();
+                const selectedProductId = customerProductSelect.value;
+                const quantity = parseInt(customerQuantityInput.value);
+                const itemPrice = parseFloat(customerPriceInput.value);
+                const totalAmount = parseFloat(customerTotalAmountInput.value);
+                const district = customerDistrictSelect.value;
+
+                if (!name || !selectedProductId || isNaN(quantity) || isNaN(itemPrice) || isNaN(totalAmount) || !district || quantity <= 0 || itemPrice <= 0 || totalAmount <= 0) {
+                    alert('Fadlan si sax ah u buuxi dhammaan xogta macmiilka!');
+                    return;
+                }
+
+                const selectedProduct = products.find(p => p.id === selectedProductId);
+                if (!selectedProduct) {
+                    alert('Fadlan dooro shay sax ah.');
+                    return;
+                }
+
+                if (quantity > selectedProduct.quantity) {
+                    alert(`Tirada aad rabto (${quantity}) waxay ka badan tahay tan hadda jirta (${selectedProduct.quantity}) ee ${selectedProduct.name} (${selectedProduct.length}in x ${selectedProduct.width}in).`);
+                    return;
+                }
+
+                if (id) {
+                    const oldCustomer = customers.find(c => c.id === id);
+                    if (oldCustomer) {
+                        const oldProduct = products.find(p => p.id === oldCustomer.productId);
+                        if (oldProduct) oldProduct.quantity += oldCustomer.quantity;
+                    }
+
+                    customers = customers.map(customer =>
+                        customer.id === id ? { ...customer, name, productId: selectedProductId, productName: selectedProduct.name, quantity, itemPrice, totalAmount, district } : customer
+                    );
+
+                    selectedProduct.quantity -= quantity;
+
+                } else {
+                    const newCustomer = {
+                        id: Date.now().toString(),
+                        name,
+                        productId: selectedProductId,
+                        productName: selectedProduct.name,
+                        quantity,
+                        itemPrice,
+                        totalAmount,
+                        district,
+                        saleDate: new Date().toISOString()
+                    };
+                    customers.push(newCustomer);
+
+                    selectedProduct.quantity -= quantity;
+                }
+                saveProducts();
+                saveCustomers();
+                renderProducts();
+                renderCustomers();
+                customerForm.reset();
+                customerIdInput.value = '';
+                customerPriceInput.value = '';
+                customerTotalAmountInput.value = '';
+            };
+
+            const editCustomer = (id) => {
+                const customer = customers.find(c => c.id === id);
+                if (customer) {
+                    customerIdInput.value = customer.id;
+                    customerNameInput.value = customer.name;
+                    customerProductSelect.value = customer.productId;
+                    const event = new Event('change');
+                    customerProductSelect.dispatchEvent(event);
+                    customerQuantityInput.value = customer.quantity;
+                    customerPriceInput.value = customer.itemPrice.toFixed(2);
+                    customerTotalAmountInput.value = customer.totalAmount.toFixed(2);
+                    customerDistrictSelect.value = customer.district;
+                }
+            };
+
+            const deleteCustomer = (id) => {
+                if (confirm('Ma hubtaa inaad tirtirto macmiilkan?')) {
+                    const deletedCustomer = customers.find(customer => customer.id === id);
+                    if (deletedCustomer) {
+                        const productToUpdate = products.find(p => p.id === deletedCustomer.productId);
+                        if (productToUpdate) {
+                            productToUpdate.quantity += deletedCustomer.quantity;
+                            saveProducts();
+                            renderProducts();
+                        }
+                    }
+                    customers = customers.filter(customer => customer.id !== id);
+                    saveCustomers();
+                    renderCustomers();
+                }
+            };
+
+            // Function to generate PDF of customer data
+            const generateCustomerPdf = async () => {
+                const customerTable = document.getElementById('customerTable');
+
+                // Temporarily hide the 'Ficil' (Action) column before capturing to PDF
+                const actionHeader = customerTable.querySelector('th:last-child');
+                const actionCells = customerTable.querySelectorAll('td:last-child');
+                actionHeader.style.display = 'none';
+                actionCells.forEach(cell => cell.style.display = 'none');
+
+                // Wait for the next repaint to ensure display:none takes effect
+                await new Promise(resolve => requestAnimationFrame(resolve));
+
+                html2canvas(customerTable, { scale: 2 }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const imgWidth = 210; // A4 width in mm
+                    const pageHeight = 297; // A4 height in mm
+                    const imgHeight = canvas.height * imgWidth / canvas.width;
+                    let heightLeft = imgHeight;
+                    let position = 0;
+
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+
+                    while (heightLeft >= 0) {
+                        position = heightLeft - imgHeight;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                    }
+
+                    pdf.save('xogta_macaamiisha.pdf');
+
+                    // Show the 'Ficil' (Action) column again after PDF generation
+                    actionHeader.style.display = '';
+                    actionCells.forEach(cell => cell.style.display = '');
+                }).catch(error => {
+                    console.error("Error generating PDF:", error);
+                    alert("Waxa dhacay qalad markii PDF-ka la samaynayay. Fadlan isku day mar kale.");
+
+                    // Ensure the 'Ficil' (Action) column is visible even if an error occurs
+                    const actionHeader = customerTable.querySelector('th:last-child');
+                    const actionCells = customerTable.querySelectorAll('td:last-child');
+                    if (actionHeader) actionHeader.style.display = '';
+                    if (actionCells) actionCells.forEach(cell => cell.style.display = '');
+                });
+            };
+
+            customerForm.addEventListener('submit', addOrUpdateCustomer);
+            downloadPdfBtn.addEventListener('click', generateCustomerPdf); // Event listener for the new button
+
+            renderCustomers();
+            populateCustomerProductSelect();
+            populateDistrictSelect();
+            updateDashboardStats();
+            // Initially render the chart when the page loads
+            renderDailySalesChart();
+        });
+        /* --- JavaScript End --- */
+    </script>
+</body>
+</html>
